@@ -1,0 +1,45 @@
+<!DOCTYPE html>  
+
+<head>
+<meta charset="utf-8" />
+<title>Chat</title>
+
+<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+<script language="javascript" type="text/javascript" src="chat.js"></script>
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
+
+<script>
+
+$(function() {   
+   $(".fixedHeight").each(function() {
+    var head = $(this).find(".header");
+    var body = $(this).find(".chatWindow");
+    var foot = $(this).find(".chatInput");   
+    body.css("margin-top", head.height()).css("margin-bottom", foot.height());      
+   });   
+ });
+
+</script>
+
+</head>
+
+<body>
+<div class="container fixedHeight">
+<header>
+<h2>Chat</h2>  
+</header>
+
+<div id="chatWindow"> 
+<div id="chatContents"></div> 
+<div id="push"></div>
+</div>
+
+<div id="chatInput">
+    <form onsubmit="buttonPressed(evt); return false">
+    <input type="textarea" id="textfield" />
+    </form>
+</div>
+</div>
+</body>
+
+</html>
