@@ -1,8 +1,12 @@
 var wsUri = "ws://0.0.0.0:9000";
 var output;
 
+var youDiv = "<div class=\'youTag\'>You: </div>"
+var strangerDiv = "<div class=\'strangerTag\'>Stranger: </div>"
+
 function init() { 
 	output = document.getElementById("chatContents"); 
+	outputView = document.getElementById("chatWindow"); 
     testWebSocket(); 
     document.getElementById('textfield').select();
 }  
@@ -16,16 +20,31 @@ function testWebSocket() {
 }  
 	
 function onOpen(evt) { 
-	writeToScreen("CONNECTED"); 
+	announce("Connected to the server! :D"); 
 }  
 
 function onClose(evt) { 
-	writeToScreen("DISCONNECTED"); 
+	announce("Disconnected from the server... :("); 
 }  
 
 function onMessage(evt) { 
-	console.log("got data: " + evt.data);
-	writeToScreen(evt.data); 
+	console.log("got- " + evt.data);
+	var msg = evt.data.split(":");
+	console.log("cmd- " + msg[0] + " data- " + msg[1]);
+	
+	console.log(msg.length)
+	if (msg.length > 2) {
+		for (var i = 2; i < msg.length; i++)
+			msg[1] = msg[1] + ":" + msg[i]
+	}
+	
+	if (msg[0] === "in" || msg[0] === "out") {
+		writeToScreen(msg[0], msg[1]); 
+	}
+	else if (msg[0] === "ann")
+		writeToScreen(msg[0], msg[1]); 
+	else
+		console.log("Received unknown command!");
 }  
 
 function onError(evt) { 
@@ -37,18 +56,36 @@ function doSend(message) {
 	websocket.send(message); 
 }
 
-function writeToScreen(message) { 
+function writeToScreen(type, message) { 
+	console.log("type " + type + " message " + message);
+	var tag = "";
+	if (type === "ann")
+		className = "announcement" ;
+	else {
+		className = "message";
+		if (type === "in") tag = strangerDiv;
+		else tag = youDiv;
+	}
+
 	//place the new messages in a div
     var newDiv = document.createElement("DIV");
-    newDiv.innerHTML = message;
-    newDiv.style.wordWrap = "break-word"; 
+    newDiv.innerHTML = tag + message;
+    newDiv.style.wordWrap = "break-word";
+    newDiv.className = className;
 
     //append the messages to the contents
     output.appendChild(newDiv);
 
     //scroll the chatContents area to the bottom
-    if (output.scrollHeight - output.scrollTop <= 120*2)
-    	output.scrollTop = output.scrollHeight;
+    console.log(outputView.scrollHeight)
+    console.log(outputView.scrollTop)
+    console.log(outputView.scrollHeight - outputView.scrollTop)
+    if (outputView.scrollHeight - outputView.scrollTop <= 511)
+    	outputView.scrollTop = outputView.scrollHeight;
+}  
+
+function announce(message) { 
+	writeToScreen("ann", message);
 }  
 
 function buttonPressed(evt) {
