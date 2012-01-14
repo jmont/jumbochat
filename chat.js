@@ -1,4 +1,4 @@
-var wsUri = "ws://0.0.0.0:9000";
+var wsUri = "ws://localhost:9000";
 var output;
 
 var youDiv = "<div class=\'youTag\'>You: </div>"
