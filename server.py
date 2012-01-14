@@ -1,6 +1,13 @@
+import sys
 from twisted.internet import reactor
 from autobahn.websocket import WebSocketServerFactory, WebSocketServerProtocol, listenWS
 import pdb
+
+# get port
+if !sys.argv[1]:
+	port = "9000"
+else:
+	port = sys.argv[1]
 
 # debug mode
 debug = False
@@ -84,7 +91,8 @@ class Chat(WebSocketServerProtocol):
 		self.sendMessage("ann:" + message + '\n')
 		self.chatWith.sendMessage("ann:" + message + '\n')
 
-factory = WebSocketServerFactory("ws://localhost:9000")
+urlString = "ws://localhost:" + port
+factory = WebSocketServerFactory(urlString)
 factory.protocol = Chat
 factory.unusedClients = []
 factory.chatting = []
