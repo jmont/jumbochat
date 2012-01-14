@@ -4,10 +4,7 @@ from autobahn.websocket import WebSocketServerFactory, WebSocketServerProtocol, 
 import pdb
 
 # get port
-if !sys.argv[1]:
-	port = "9000"
-else:
-	port = sys.argv[1]
+port = sys.argv[1]
 
 # debug mode
 debug = False
@@ -97,5 +94,5 @@ factory.protocol = Chat
 factory.unusedClients = []
 factory.chatting = []
 listenWS(factory)
-print "Chat server started"
+print "Chat server started in port " + port
 reactor.run()
