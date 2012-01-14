@@ -1,5 +1,6 @@
 import sys
 from twisted.internet import reactor
+from twisted.python import log
 from autobahn.websocket import WebSocketServerFactory, WebSocketServerProtocol, listenWS
 import pdb
 
@@ -8,6 +9,9 @@ port = sys.argv[1]
 
 # debug mode
 debug = False
+
+# setup log
+#log.startLogging(open('/var/log/jumbochat/chat.log', 'w'))
 
 # self.transport.loseConnection() closes the connection...
 class Chat(WebSocketServerProtocol):
@@ -26,7 +30,7 @@ class Chat(WebSocketServerProtocol):
 		else:
 			self.factory.unusedClients.append(self)
 			self.message("Waiting for someone to connect...")
-		print (len(self.factory.unusedClients) + len(self.factory.chatting)), " clients connected"
+		log.msg(str(len(self.factory.unusedClients) + len(self.factory.chatting)) + " clients connected")
 		
 	def connectionLost(self, reason):
 		try: # remove tuple from chat list
@@ -39,15 +43,12 @@ class Chat(WebSocketServerProtocol):
 			else:
 				self.factory.unusedClients.remove(self)
 		except:
-			print "exception closing connection"
-		print "Connection closed. Reason: ", reason
+			log.err("exception closing connection")
+		log.msg("Connection closed. Reason: " + str(reason))
 		
 	def onMessage(self, data, binary):
 		if debug: pdb.set_trace()
-		if binary:
-			print "is binary"
 		a = data.split(':')
-		print "Recieved: ", a
 		
 		if len(a) > 2:
 			for i in range(2,len(a)):
@@ -67,16 +68,16 @@ class Chat(WebSocketServerProtocol):
 				self.transport.loseConnection()
 			else:
 				raise Exception("Command unknown!")
+				log.err("Unknown command sent to server")
 				msg = "Unknown command"
-				
-			print "msg: ", msg
 
 			if self.chatWith:
 				self.chatAll(msg)
 			else:
 				self.message(msg)
 		else:
-			print "Error in array length"
+			log.err("Error in array length")
+			
 	def message(self, message):
 		self.sendMessage("ann:" + message + '\n')
 		
@@ -95,4 +96,5 @@ factory.unusedClients = []
 factory.chatting = []
 listenWS(factory)
 print "Chat server started in port " + port
+log.msg("Chat server started in port " + port)
 reactor.run()
