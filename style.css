@@ -25,6 +25,18 @@ header {
 	overflow : hidden;
 }
 
+#nav {
+	position: absolute;
+	right: 0;
+	top: 25px;
+	right: 10px;
+}
+
+#nav a {
+	text-decoration: none;
+	color: #707070;
+}
+
 #chatWindow {
 	overflow: scroll;
 	overflow-x: hidden;
@@ -60,6 +72,28 @@ header {
 	margin: 0px 0px 5px 0px;
 	overflow: scroll;
 	outline:none;
+}
+
+#register_box {
+    position: fixed;
+    height: 250px;
+    width: 300px;
+    margin-top: -125px;
+    margin-left: -150px;
+    top: 50%;
+    left: 50%;
+    background: #e0e0e0;
+}
+
+#register_contents {
+    margin: 20px;
+    text-align: center;
+}
+
+#register_form {
+    width: 200px;
+    margin: 0 auto;
+    background: red;
 }
 
 /* Presentation */

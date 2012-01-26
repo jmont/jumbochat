@@ -40,7 +40,7 @@ class flexibleAccess{
    * The database that we will use
    * var string
    */
-  var $dbName = 'database';
+  var $dbName = 'jumbochat';
   /**
    * The database host
    * var string
@@ -55,12 +55,12 @@ class flexibleAccess{
    * The database user
    * var string
    */
-  var $dbUser = 'user';
+  var $dbUser = 'chat';
   /**
    * The database password
    * var string
    */
-  var $dbPass = 'password';
+  var $dbPass = 'jumbopoop';
   /**
    * The database table that holds all the information
    * var string

@@ -1,5 +1,99 @@
 <!DOCTYPE html>  
 
+<?php
+include('access.class.php');
+$user = new flexibleAccess();
+
+	if ( $_GET['logout'] == 1 ) 
+   		$user->logout('http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']);
+  
+	else if (!empty($_GET['activate'])){
+		//echo '<script>alert(\'activate\')</script>';
+		//This is the actual activation. User got the email and clicked on the special link we gave him/her
+		$hash = $user->escape($_GET['activate']);
+		$res = $user->query("SELECT `{$user->tbFields['active']}` FROM `{$user->dbTable}` WHERE `activationHash` = '$hash' LIMIT 1",__LINE__);
+		if ( $rec = mysql_fetch_array($res) ){
+			if ( $rec[0] == 1 )
+				echo '<script>alert(\'Your account is already activated\')</script>';
+			else{
+				//Activate the account:
+				if ($user->query("UPDATE `{$user->dbTable}` SET `{$user->tbFields['active']}` = 1 WHERE `activationHash` = '$hash' LIMIT 1", __LINE__))
+					echo '<script>alert(\'Account activated!\')</script>';
+				else
+					echo '<script>alert(\'Unexpected error. Please contact an administrator\')</script>';
+			}
+		} else{
+			echo '<script>alert(\'User account does not exists\')</script>';
+		}
+	}
+	
+
+    
+	else if ( !$user->is_loaded() ) { // add ! to condition to make it work....
+		//echo '<script>alert(\'user not loaded\')</script>';
+  		if (isset($_POST['email']) && isset($_POST['pwd'])){
+    		if (!$user->login($_POST['email'],$_POST['pwd'],$_POST['remember'] )){
+      			
+      			//echo '<script>alert(\'email\')</script>';
+ 		 		//Register user:
+  
+  				//Get an activation hash and mail it to the user
+  				$hash = $user->randomPass(100);
+  				while( mysql_num_rows($user->query("SELECT * FROM `{$user->dbTable}` WHERE `activationHash` = '$hash' LIMIT 1"))==1)//We need a unique hash
+  	  				$hash = $user->randomPass(100);
+  				//Adding the user. The logic is simple. We need to provide an associative array, where keys are the field names and values are the values :)
+  				$data = array(
+  					'username' => $_POST['email'],
+  					'email' => $_POST['email'],
+  					'password' => $_POST['pwd'],
+  					'activationHash' => $hash,
+  					'active' => 0
+  				);
+  				$userID = $user->insertUser($data);//The method returns the userID of the new user or 0 if the user is not added
+  				if ($userID==0)
+  					echo '<script>alert(\'User not registered\')</script>';//user is allready registered or something like that
+ 				else {
+  					echo '<script>alert(\'User registered with user id '.$userID. '. Activate your account using the instructions on your mail.\')</script>';
+  					//Here is a sample mail that user will get:
+					$email = 'Activate your user account by visiting : '. $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] .'?activate='.$hash;
+					mail($_POST['email'], 'Activate your account', $email);
+  				}
+  					
+    		} else{
+      			//user is now loaded, reload page
+      			header('Location: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']);
+    		}
+  		}
+?>
+
+<head>
+<meta charset="utf-8" />
+<title>Login</title>
+
+<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
+
+</head>
+
+<body>
+<div id='register_box'>
+  <div id='register_contents'>
+    <h2>Login or Register</div>
+    <div id='register_form'>
+      <?php echo '<form method="post" action="'.$_SERVER['PHP_SELF'].'"/>' ?>
+      <input type="text" name="email" /><br />
+      <input type="password" name="pwd" /><br />
+      Remember me? <input type="checkbox" name="remember" value="1" /><br /><br />
+      <input type="submit" value="login" />
+    </div>
+  </div>
+</div>
+</body>
+
+<?php
+	} else {
+?>
+
 <head>
 <meta charset="utf-8" />
 <title>Chat</title>
@@ -24,12 +118,16 @@ $(function() {
 </head>
 
 <body>
+
 <div class="container fixedHeight">
-<header></header>
+<header>
+	<div id=nav>
+		<?php echo '<a href="'.$_SERVER['PHP_SELF'].'?logout=1">logout</a>'; ?>
+	</div>
+</header>
 
 <div id="chatWindow"> 
 <div id="chatContents"></div> 
-
 </div>
 
 <div id="chatInput">
@@ -38,6 +136,11 @@ $(function() {
     </form>
 </div>
 </div>
+
 </body>
 
 </html>
+
+<?php
+}
+?>
