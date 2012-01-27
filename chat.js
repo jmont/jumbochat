@@ -80,8 +80,8 @@ function writeToScreen(type, message) {
     console.log(outputView.scrollHeight)
     console.log(outputView.scrollTop)
     console.log(outputView.scrollHeight - outputView.scrollTop)
-    if (outputView.scrollHeight - outputView.scrollTop <= 511)
-    	outputView.scrollTop = outputView.scrollHeight;
+    //if (outputView.scrollHeight - outputView.scrollTop <= 511) //deal with scrolling while messages are incoming
+    outputView.scrollTop = outputView.scrollHeight;
 }  
 
 function announce(message) { 
