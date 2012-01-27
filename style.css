@@ -10,6 +10,7 @@ body {
 	padding : 0px;
 	overflow : hidden;
 	margin: 0 auto -20px;
+	font-family: 'Lucida Grande', 'Helvetica Neue', sans-serif;
 }
 
 header {
@@ -20,9 +21,14 @@ header {
 	margin: 0px;
 	padding : 0px;
 	background: #e0e0e0;
-	background-image: url("images/logo.png");
+	background-image: url("logo.png");
 	background-repeat: no-repeat;
 	overflow : hidden;
+}
+
+#loginLogo {
+	margin-left: 35px;
+	margin-bottom: 10px;
 }
 
 #nav {
@@ -35,6 +41,11 @@ header {
 #nav a {
 	text-decoration: none;
 	color: #707070;
+}
+
+#nav a:hover {
+	text-decoration: none;
+	font-weight: bold;
 }
 
 #chatWindow {
@@ -76,13 +87,17 @@ header {
 
 #register_box {
     position: fixed;
-    height: 250px;
+    height: 290px;
     width: 300px;
-    margin-top: -125px;
+    margin-top: -160px;
     margin-left: -150px;
     top: 50%;
     left: 50%;
-    background: #e0e0e0;
+    border: 4px solid #e0e0e0;
+    
+    -webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 #register_contents {
@@ -91,10 +106,87 @@ header {
 }
 
 #register_form {
-    width: 200px;
-    margin: 0 auto;
-    background: blue;
+    width: 215px;
+    margin: 0 auto 90px auto;
 }
+
+#register_form_left {
+	display: block;
+	margin: 0 10px 0 0;
+	float: left;
+}
+
+#register_form input {
+	border: 4px solid #d0d0d0;
+	padding: 8px 10px;
+	
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	
+	outline: 0;
+}
+
+#register_form input[type="submit"] {
+	cursor: pointer;
+	background: -webkit-linear-gradient(top, #efefef, #ddd);
+	background: -moz-linear-gradient(top, #efefef, #ddd);
+	background: -ms-linear-gradient(top, #efefef, #ddd);
+	background: -o-linear-gradient(top, #efefef, #ddd);
+	background: linear-gradient(top, #efefef, #ddd);
+	color: #333;
+	text-shadow: 0px 1px 1px rgba(255,255,255,1);
+	border: 1px solid #ccc;
+}
+
+#loginButton {
+	display: block;
+	margin: 25px 0 0 0;
+	float: right;
+}
+
+#register_form input[type="submit"]:hover {
+	background: -webkit-linear-gradient(top, #eee, #ccc);
+	background: -moz-linear-gradient(top, #eee, #ccc);
+	background: -ms-linear-gradient(top, #eee, #ccc);
+	background: -o-linear-gradient(top, #eee, #ccc);
+	background: linear-gradient(top, #eee, #ccc);
+	border: 1px solid #bbb;
+}
+
+#register_form input[type="submit"]:active {
+	background: -webkit-linear-gradient(top, #ddd, #aaa);
+	background: -moz-linear-gradient(top, #ddd, #aaa);
+	background: -ms-linear-gradient(top, #ddd, #aaa);
+	background: -o-linear-gradient(top, #ddd, #aaa);
+	background: linear-gradient(top, #ddd, #aaa);	
+	border: 1px solid #999;
+}
+
+#remember_me {
+	display: inline;
+	font-size: 12px;
+	margin: 0 20px 0 10px;
+}
+
+#login_info {
+	font-size: 12px;
+	width: 200px;
+	margin: 95px auto 0 auto;
+	text-align: center;
+	color: #707070;
+}
+
+#contact {
+	font-size: 12px;
+	width: 200px;
+	margin: 10px auto;
+	text-align: center;
+}
+
+#contact a { color: #707070; text-decoration: none; text-align: center;}
+
+#contact a:hover { font-weight: bold; }
 
 /* Presentation */
 

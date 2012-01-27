@@ -79,15 +79,19 @@ $user = new flexibleAccess();
 <body>
 <div id='register_box'>
   <div id='register_contents'>
-    <h2>Login or Register</div>
+    <img src="logo.png" alt="JumboChat!" id="loginLogo"/>
     <div id='register_form'>
+      <div id="register_form_left">
       <?php echo '<form method="post" action="'.$_SERVER['PHP_SELF'].'"/>' ?>
-      <input type="text" name="email" /><br />
-      <input type="password" name="pwd" /><br />
-      Remember me? <input type="checkbox" name="remember" value="1" /><br /><br />
-      <input type="submit" value="login" />
+      <input type="text" name="email" placeholder="email" /><br />
+      <input type="password" name="pwd" placeholder="password"/><br />
+      </div>
+      <input type="submit" value="login" id="loginButton"/>
     </div>
   </div>
+  
+  <div id="login_info">Use your '@tufts.edu' email to log in. If this is your first time here, then enter your email and a password and you will be registered with that info.</div>
+  <div id="contact"><a href="info.html">Questions?</a></div>
 </div>
 </body>
 
