@@ -1,0 +1,14 @@
+body{
+	padding: 10px 40px;
+	font-family: 'Lucida Grande', 'Helvetica Neue', sans-serif;
+}
+
+h1{color: #0674A4;}
+
+h2{color: #8D5431;}
+
+h3{color: #0674A4; font-style: italic; font-size: 16px;}
+
+p{color: #404040;}
+
+#contact p {color: #a0a0a0; font-size: 12px;}
