@@ -4,6 +4,12 @@
 include('access.class.php');
 $user = new flexibleAccess();
 
+	function endsWith($haystack, $needle) {
+    	$length = strlen($needle);
+    	$start  = $length * -1; //negative
+    	return (substr($haystack, $start) === $needle);
+	}
+
 	if ( $_GET['logout'] == 1 ) 
    		$user->logout('http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']);
   
@@ -32,7 +38,7 @@ $user = new flexibleAccess();
 	else if ( !$user->is_loaded() ) { // add ! to condition to make it work....
 		//echo '<script>alert(\'user not loaded\')</script>';
   		if (isset($_POST['email']) && isset($_POST['pwd'])){
-    		if (!$user->login($_POST['email'],$_POST['pwd'],$_POST['remember'] )){
+    		if (!$user->login($_POST['email'],$_POST['pwd'],$_POST['remember']) && endsWith($_POST['email'],"@tufts.edu")){
       			
       			//echo '<script>alert(\'email\')</script>';
  		 		//Register user:
@@ -59,6 +65,8 @@ $user = new flexibleAccess();
 					mail($_POST['email'], 'Activate your account', $email);
   				}
   					
+    		} else if (!endsWith($_POST['email'],"@tufts.edu")) {
+    			echo '<script>alert(\'Not a Tufts email.\')</script>';
     		} else{
       			//user is now loaded, reload page
       			header('Location: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']);
