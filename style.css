@@ -187,6 +187,41 @@ header {
 
 #contact a:hover { text-decoration: underline; }
 
+/* Banner */
+
+#corner-banner {
+	position: absolute;
+	left: -65px;
+	top: 25px;
+	display: block;
+	width: 200px;
+	background: #0674A4;
+	/*background: -moz-linear-gradient(top, #0674A4 0%, #000 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0674A4), color-stop(100%,#000));*/
+	text-align:center;
+	font-size:11px;
+	line-height:13px;
+	padding:3px 3px 4px 3px;
+	text-shadow: #000 1px 1px 0;
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	box-shadow: rgba(0,0,0, 0.2) 0px 0px 6px;
+	-moz-box-shadow: rgba(0,0,0, 0.2) 0px 0px 6px;
+	-webkit-box-shadow: rgba(0,0,0, 0.2) 0px 0px 6px;
+}
+#corner-banner a:link,#corner-banner a:visited  {color:#FFF0B7;text-decoration: none;}
+#corner-banner a:hover,#corner-banner a:focus  {color:#FFF;text-decoration: none;}
+#corner-banner em {
+	letter-spacing:1px;
+	font-style:normal;
+	font-size:10px !important;
+	color:#fff;
+	text-transform:uppercase;
+	line-height:12px;
+	display:block;
+}
+
 /* Presentation */
 
 .youTag, .strangerTag {
