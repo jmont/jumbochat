@@ -4,6 +4,8 @@ var output;
 var youDiv = "<div class=\'youTag\'>You: </div>"
 var strangerDiv = "<div class=\'strangerTag\'>Stranger: </div>"
 
+var messagesAllowed = false;
+
 function init() { 
 	output = document.getElementById("chatContents"); 
 	outputView = document.getElementById("chatWindow"); 
@@ -42,7 +44,11 @@ function onMessage(evt) {
 		writeToScreen(msg[0], msg[1]); 
 	}
 	else if (msg[0] === "ann")
-		writeToScreen(msg[0], msg[1]); 
+		writeToScreen(msg[0], msg[1]);
+	else if (msg[0] === "con") {
+		allowMessages();
+		writeToScreen(msg[0], msg[1]);
+	}
 	else
 		console.log("Received unknown command!");
 }  
@@ -56,10 +62,14 @@ function doSend(message) {
 	websocket.send(message); 
 }
 
+function allowMessages() { 
+	messagesAllowed = true;
+}
+
 function writeToScreen(type, message) { 
 	console.log("type " + type + " message " + message);
 	var tag = "";
-	if (type === "ann")
+	if (type === "ann" || type === "con")
 		className = "announcement" ;
 	else {
 		className = "message";
@@ -89,8 +99,12 @@ function announce(message) {
 }  
 
 function buttonPressed(evt) {
-	websocket.send("msg:" + document.getElementById('textfield').value + '\n');
+	if (messagesAllowed)
+		websocket.send("msg:" + document.getElementById('textfield').value + '\n');	
+	else
+		console.log("Message could not be sent since messages are not allowed at this time.");
 	document.getElementById('textfield').value = '';
+
 }
 
 window.addEventListener("load", init, false);  
