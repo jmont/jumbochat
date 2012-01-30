@@ -124,10 +124,11 @@ $user = new flexibleAccess();
     <div id='register_form'>
       <div id="register_form_left">
       <?php echo '<form method="post" action="'.$_SERVER['PHP_SELF'].'"/>' ?>
-      <input type="text" name="email" placeholder="email" /><br />
-      <input type="password" name="pwd" placeholder="password"/><br />
-      </div>
-      <input type="submit" value="login" id="loginButton"/>
+      	<input type="text" name="email" placeholder="email" /><br />
+      	<input type="password" name="pwd" placeholder="password"/><br />
+      	</div>
+      	<input type="submit" value="login" id="loginButton"/>
+      </form>
     </div>
   </div>
   
@@ -183,7 +184,9 @@ $(function() {
 <div class="container fixedHeight">
 <header>
 	<div id=nav>
-		<?php echo '<a href="'.$_SERVER['PHP_SELF'].'?logout=1">logout</a>'; ?>
+	  <?php echo '<form method="post" action="'.$_SERVER['PHP_SELF'].'?logout=1"/>' ?>
+      	<input type="submit" value="logout" id="logoutButton" class="button"/>
+      </form>
 	</div>
 </header>
 
