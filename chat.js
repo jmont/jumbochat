@@ -113,8 +113,12 @@ function announce(message) {
 }  
 
 function buttonPressed(evt) {
-	if (isConnected)
-		websocket.send("msg:" + document.getElementById('textfield').value + '\n');	
+	if (isConnected) {
+		if (document.getElementById('textfield').value.length != 0)
+			websocket.send("msg:" + document.getElementById('textfield').value + '\n');
+		else
+			console.log("Can't send an empty message.");
+	}
 	else
 		console.log("Message could not be sent since messages are not allowed at this time.");
 	document.getElementById('textfield').value = '';
