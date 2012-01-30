@@ -160,6 +160,12 @@ $(function() {
     body.css("margin-top", head.height()).css("margin-bottom", foot.height());      
    });   
  });
+ 
+$(document).keyup(function(e) {
+	if (e.keyCode == 27) { //esc
+		disconnect();
+	}
+});
 
 </script>
 

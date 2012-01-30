@@ -29,6 +29,11 @@ function onClose(evt) {
 	announce("Disconnected from the server... :("); 
 }  
 
+function disconnect() {
+	websocket.close();
+	messagesAllowed = false;
+}
+
 function onMessage(evt) { 
 	console.log("got- " + evt.data);
 	var msg = evt.data.split(":");
