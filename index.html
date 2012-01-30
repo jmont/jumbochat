@@ -59,10 +59,14 @@ $user = new flexibleAccess();
   				if ($userID==0)
   					echo '<script>alert(\'User not registered\')</script>';//user is allready registered or something like that
  				else {
-  					echo '<script>alert(\'User registered with user id '.$userID. '. Activate your account using the instructions on your mail.\')</script>';
+  					echo '<script>alert(\'Please check your email to activate your account.\')</script>';
   					//Here is a sample mail that user will get:
-					$email = 'Activate your user account by visiting : '. $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] .'?activate='.$hash;
-					mail($_POST['email'], 'Activate your account', $email);
+					$email = "Welcome to JumboChat! \r\n\r\n Activate your user account by visiting: "
+					         . $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] .'?activate='.$hash 
+					         . "\r\n\r\n Thanks! \r\n JC \r\n\r\n (Please reply to this email if you have any questions)";
+					$headers = 'From: JumboChat <hal@jumbochat.homedns.org>' . "\r\n" .
+							   'Reply-To: jmonte03@tufts.edu';
+					mail($_POST['email'], 'Activate your account', $email, $headers);
   				}
   					
     		} else if (!endsWith($_POST['email'],"@tufts.edu")) {
