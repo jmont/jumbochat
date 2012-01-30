@@ -5,6 +5,7 @@ var youDiv = "<div class=\'youTag\'>You: </div>"
 var strangerDiv = "<div class=\'strangerTag\'>Stranger: </div>"
 
 var isConnected = false;
+var isConnecting = true;
 
 function init() { 
 	output = document.getElementById("chatContents"); 
@@ -17,6 +18,7 @@ function init() {
 }  
 
 function testWebSocket() {
+	isConnecting = true;
 	websocket = new WebSocket(wsUri); 
 	websocket.onopen = function(evt) { onOpen(evt) }; 
 	websocket.onclose = function(evt) { onClose(evt) }; 
@@ -78,6 +80,7 @@ function doSend(message) {
 
 function allowMessages() { 
 	isConnected = true;
+	isConnecting = false;
 }
 
 function writeToScreen(type, message) { 

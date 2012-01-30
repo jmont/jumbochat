@@ -163,7 +163,10 @@ $(function() {
  
 $(document).keyup(function(e) {
 	if (e.keyCode == 27) { //esc
-		isConnected ? disconnect() : reconnect();
+		if (isConnected)
+			disconnect();
+		else if (!isConnecting)
+			reconnect();
 	}
 });
 
