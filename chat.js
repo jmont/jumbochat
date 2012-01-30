@@ -4,11 +4,14 @@ var output;
 var youDiv = "<div class=\'youTag\'>You: </div>"
 var strangerDiv = "<div class=\'strangerTag\'>Stranger: </div>"
 
-var messagesAllowed = false;
+var isConnected = false;
 
 function init() { 
 	output = document.getElementById("chatContents"); 
 	outputView = document.getElementById("chatWindow"); 
+	
+	output.innerHTML = ""; 
+	
     testWebSocket(); 
     document.getElementById('textfield').select();
 }  
@@ -21,17 +24,23 @@ function testWebSocket() {
 	websocket.onerror = function(evt) { onError(evt) }; 
 }  
 	
-function onOpen(evt) { 
-	announce("Connected to the server! :D"); 
+function onOpen(evt) {
+	announce("Now connected to JumboChat :)"); 
+	announce("Press the esc key on your keyboard to end or start a conversation."); 
 }  
 
 function onClose(evt) { 
 	announce("Disconnected from the server... :("); 
+	isConnected = false;
 }  
 
 function disconnect() {
 	websocket.close();
-	messagesAllowed = false;
+	isConnected = false;
+}
+
+function reconnect() {
+	init();
 }
 
 function onMessage(evt) { 
@@ -49,10 +58,10 @@ function onMessage(evt) {
 		writeToScreen(msg[0], msg[1]); 
 	}
 	else if (msg[0] === "ann")
-		writeToScreen(msg[0], msg[1]);
+		announce(msg[1]);
 	else if (msg[0] === "con") {
 		allowMessages();
-		writeToScreen(msg[0], msg[1]);
+		announce(msg[1]);
 	}
 	else
 		console.log("Received unknown command!");
@@ -68,7 +77,7 @@ function doSend(message) {
 }
 
 function allowMessages() { 
-	messagesAllowed = true;
+	isConnected = true;
 }
 
 function writeToScreen(type, message) { 
@@ -100,11 +109,11 @@ function writeToScreen(type, message) {
 }  
 
 function announce(message) { 
-	writeToScreen("ann", message);
+	writeToScreen("ann", "-- " + message);
 }  
 
 function buttonPressed(evt) {
-	if (messagesAllowed)
+	if (isConnected)
 		websocket.send("msg:" + document.getElementById('textfield').value + '\n');	
 	else
 		console.log("Message could not be sent since messages are not allowed at this time.");
