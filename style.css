@@ -223,6 +223,31 @@ header {
 	display:block;
 }
 
+#typingIndicator {
+	position: absolute;
+	bottom: 25px;
+	right:0px;
+	background: #e0e0e0;
+	border: 1px solid #ccc;
+	
+	margin: 0 3px 3px 0;
+	padding: 2px 4px;
+	
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	
+	font-size: 12px;
+	
+	opacity: 1;
+	-webkit-transition: opacity .2s linear;
+}
+
+#typingIndicator:hover, #typingIndicatorHidden {
+	opacity: 0;
+}
+
+
 /* Presentation */
 
 .youTag, .strangerTag {
