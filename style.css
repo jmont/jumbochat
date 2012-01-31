@@ -238,6 +238,7 @@ header {
 	border-radius: 5px;
 	
 	font-size: 12px;
+	color: #999;
 	
 	opacity: 1;
 	-webkit-transition: opacity .2s linear;
@@ -245,6 +246,7 @@ header {
 
 #typingIndicator:hover, #typingIndicatorHidden {
 	opacity: 0;
+	-webkit-transition: opacity .2s linear;
 }
 
 
