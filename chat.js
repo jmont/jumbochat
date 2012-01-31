@@ -34,6 +34,8 @@ function onOpen(evt) {
 function onClose(evt) { 
 	announce("Disconnected from the server... :("); 
 	isConnected = false;
+	if($("#typingIndicator"))
+		$("#typingIndicator").attr("id","typingIndicatorHidden");
 }  
 
 function disconnect() {
@@ -64,6 +66,12 @@ function onMessage(evt) {
 	else if (msg[0] === "con") {
 		allowMessages();
 		announce(msg[1]);
+	}
+	else if (msg[0] === "typ") { //stranger is typing
+		$("#typingIndicatorHidden").attr("id","typingIndicator");
+	}
+	else if (msg[0] === "pyt") { //stranger is not typing
+		$("#typingIndicator").attr("id","typingIndicatorHidden");
 	}
 	else
 		console.log("Received unknown command!");
@@ -126,6 +134,15 @@ function buttonPressed(evt) {
 		console.log("Message could not be sent since messages are not allowed at this time.");
 	document.getElementById('textfield').value = '';
 
+}
+
+function textfieldChanged(len) {
+	if (isConnected) {
+		if (len > 0)  //is typing
+			websocket.send("typ:\n");
+		else //not typing
+			websocket.send("pyt:\n");
+	}
 }
 
 window.addEventListener("load", init, false);  
