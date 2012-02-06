@@ -19,14 +19,19 @@ $user = new flexibleAccess();
 		$hash = $user->escape($_GET['activate']);
 		$res = $user->query("SELECT `{$user->tbFields['active']}` FROM `{$user->dbTable}` WHERE `activationHash` = '$hash' LIMIT 1",__LINE__);
 		if ( $rec = mysql_fetch_array($res) ){
-			if ( $rec[0] == 1 )
+			if ( $rec[0] == 1 ) {
 				echo '<script>alert(\'Your account is already activated\')</script>';
+				header('Location: http://jumbochat.homedns.org');
+			}
 			else{
 				//Activate the account:
-				if ($user->query("UPDATE `{$user->dbTable}` SET `{$user->tbFields['active']}` = 1 WHERE `activationHash` = '$hash' LIMIT 1", __LINE__))
+				if ($user->query("UPDATE `{$user->dbTable}` SET `{$user->tbFields['active']}` = 1 WHERE `activationHash` = '$hash' LIMIT 1", __LINE__)) {
 					echo '<script>alert(\'Account activated!\')</script>';
-				else
+					header('Location: http://jumbochat.homedns.org');
+				} else {
 					echo '<script>alert(\'Unexpected error. Please contact an administrator\')</script>';
+					header('Location: http://jumbochat.homedns.org');
+				}
 			}
 		} else{
 			echo '<script>alert(\'User account does not exist\')</script>';
