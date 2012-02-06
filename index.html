@@ -153,6 +153,7 @@ $user = new flexibleAccess();
 <link rel="icon" type="image/png" href="./favicon.png">
 <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
 <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
+<script language="javascript" type="text/javascript" src="sound.js"></script>
 <script language="javascript" type="text/javascript" src="chat.js"></script>
 
 <script>
@@ -198,6 +199,7 @@ $(document).keyup(function(e) {
 <div class="container fixedHeight">
 <header>
 	<div id=nav>
+	  <input type="button" value="mute" onclick="toggleMute(this)" id="mutebutton" class="button" />
 	  <?php echo '<form method="post" action="'.$_SERVER['PHP_SELF'].'?logout=1"/>' ?>
       	<input type="submit" value="logout" id="logoutButton" class="button"/>
       </form>

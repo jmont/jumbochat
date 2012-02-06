@@ -15,7 +15,16 @@ function init() {
 	
     testWebSocket(); 
     document.getElementById('textfield').select();
-}  
+} 
+
+function toggleMute(button) {
+	$.sound.enabled = !($.sound.enabled);
+	if($.sound.enabled) {
+		button.value = "mute";
+	} else {
+		button.value = "unmute";
+	}
+}
 
 function testWebSocket() {
 	isConnecting = true;
@@ -110,6 +119,10 @@ function writeToScreen(type, message) {
 
     //append the messages to the contents
     output.appendChild(newDiv);
+    
+    //Play notif
+    if(tag == strangerDiv)
+    	$.sound.play('notif.mp3');
 
     //scroll the chatContents area to the bottom
     console.log(outputView.scrollHeight)

@@ -126,6 +126,10 @@ header {
 	outline: 0;
 }
 
+.button, form {
+	display: inline;
+}
+
 #loginButton {
 	display: block;
 	margin: 25px 0 0 0;
