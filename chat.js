@@ -2,7 +2,7 @@ var wsUri = "ws://173.255.230.176:9000";
 var output;
 
 var youDiv = "<div class=\'youTag\'>You: </div>"
-var strangerDiv = "<div class=\'strangerTag\'>Stranger: </div>"
+var strangerDiv = "<div class=\'strangerTag\'>Jumbo: </div>"
 
 var isConnected = false;
 var isConnecting = true;
