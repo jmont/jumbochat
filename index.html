@@ -29,7 +29,7 @@ $user = new flexibleAccess();
 					echo '<script>alert(\'Unexpected error. Please contact an administrator\')</script>';
 			}
 		} else{
-			echo '<script>alert(\'User account does not exists\')</script>';
+			echo '<script>alert(\'User account does not exist\')</script>';
 		}
 	}
 	
@@ -57,7 +57,7 @@ $user = new flexibleAccess();
   				);
   				$userID = $user->insertUser($data);//The method returns the userID of the new user or 0 if the user is not added
   				if ($userID==0)
-  					echo '<script>alert(\'User not registered\')</script>';//user is allready registered or something like that
+  					echo '<script>alert(\'Error adding user.\')</script>';//user is allready registered or something like that
  				else {
   					echo '<script>alert(\'Please check your email to activate your account.\')</script>';
   					//Here is a sample mail that user will get:
@@ -70,7 +70,7 @@ $user = new flexibleAccess();
   				}
   					
     		} else if (!endsWith($_POST['email'],"@tufts.edu")) {
-    			echo '<script>alert(\'Not a Tufts email.\')</script>';
+    			echo '<script>alert(\'Not a valid @tufts.edu email address.\')</script>';
     		} else{
       			//user is now loaded, reload page
       			header('Location: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']);
