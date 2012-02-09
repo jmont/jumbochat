@@ -248,9 +248,13 @@ header {
 	-webkit-transition: opacity .2s linear;
 }
 
-#typingIndicator:hover, #typingIndicatorHidden {
+#typingIndicator:hover {
 	opacity: 0;
 	-webkit-transition: opacity .2s linear;
+}
+
+#typingIndicatorHidden {
+	display: none;
 }
 
 

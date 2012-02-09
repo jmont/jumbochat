@@ -7,9 +7,23 @@ var strangerDiv = "<div class=\'strangerTag\'>Jumbo: </div>"
 var isConnected = false;
 var isConnecting = true;
 
+var isViewing = true;
+var unreadMessagesCount = 0;
+
+var titleInterval = null;
+
 function init() { 
 	output = document.getElementById("chatContents"); 
 	outputView = document.getElementById("chatWindow"); 
+	
+	$(window).blur(function() {
+    	isViewing = false;
+	});
+	
+	$(window).focus(function() {
+    	isViewing = true;
+    	readMessages();
+	});
 	
 	output.innerHTML = ""; 
 	
@@ -121,8 +135,14 @@ function writeToScreen(type, message) {
     output.appendChild(newDiv);
     
     //Play notif
-    if(tag == strangerDiv)
+    if(tag == strangerDiv) {
+    	if (!isViewing) {
+    		unreadMessages();
+    		unreadMessagesCount++;
+    	}
     	$.sound.play('notif.mp3');
+    	
+    }
 
     //scroll the chatContents area to the bottom
     console.log(outputView.scrollHeight)
@@ -156,6 +176,27 @@ function textfieldChanged(len) {
 		else //not typing
 			websocket.send("pyt:\n");
 	}
+}
+
+function unreadMessages() {
+		var flag = true;
+		titleInterval = setInterval(function(){
+			if (flag) {
+				document.title = "New Message!";
+			} else{
+				document.title = "JumboChat";
+			}
+				flag = !flag;
+			}, 1000);
+}
+
+function readMessages() {
+	if (titleInterval) {
+		clearInterval(titleInterval);
+		titleInterval = null;
+		document.title = "JumboChat";
+	}
+	
 }
 
 window.addEventListener("load", init, false);  
