@@ -26,6 +26,7 @@ function init() {
 	});
 	
 	output.innerHTML = ""; 
+	readMessages();
 	
     testWebSocket(); 
     document.getElementById('textfield').select();
@@ -133,6 +134,7 @@ function writeToScreen(type, message) {
 
     //append the messages to the contents
     output.appendChild(newDiv);
+    outputView.scrollTop = outputView.scrollHeight;
     
     //Play notif
     if(tag == strangerDiv) {
@@ -141,14 +143,7 @@ function writeToScreen(type, message) {
     		unreadMessagesCount++;
     	}
     	$.sound.play('notif.mp3');
-    }
-
-    //scroll the chatContents area to the bottom
-    console.log(outputView.scrollHeight)
-    console.log(outputView.scrollTop)
-    console.log(outputView.scrollHeight - outputView.scrollTop)
-    //if (outputView.scrollHeight - outputView.scrollTop <= 511) //deal with scrolling while messages are incoming
-    outputView.scrollTop = outputView.scrollHeight;
+    }   
 }  
 
 function announce(message) { 
