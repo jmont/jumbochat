@@ -141,7 +141,6 @@ function writeToScreen(type, message) {
     		unreadMessagesCount++;
     	}
     	$.sound.play('notif.mp3');
-    	
     }
 
     //scroll the chatContents area to the bottom
