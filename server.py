@@ -25,7 +25,7 @@ class Chat(WebSocketServerProtocol):
 			self.chatWith.chatWith = self
 			self.factory.chatting.append(self)
 			self.factory.chatting.append(self.chatWith)
-			self.messageAll("Now connected to someone!")
+			self.enableAll("Now connected to someone!")
 		# else add to unused client list
 		else:
 			self.factory.unusedClients.append(self)
@@ -66,17 +66,28 @@ class Chat(WebSocketServerProtocol):
 			elif command == "ter":
 				msg = " has left the chat"
 				self.transport.loseConnection()
+			elif command == "typ":
+				self.isTyping()
+			elif command == "pyt":
+				self.isNotTyping()
 			else:
 				raise Exception("Command unknown!")
 				log.err("Unknown command sent to server")
 				msg = "Unknown command"
 
-			if self.chatWith:
-				self.chatAll(msg)
-			else:
-				self.message(msg)
+			if msg != "":
+				if self.chatWith:
+					self.chatAll(msg)
+				else:
+					self.message(msg)
 		else:
 			log.err("Error in array length")
+			
+	def isTyping(self):
+		self.chatWith.sendMessage("typ:\n")
+	
+	def isNotTyping(self):
+		self.chatWith.sendMessage("pyt:\n")
 			
 	def message(self, message):
 		self.sendMessage("ann:" + message + '\n')
@@ -88,6 +99,10 @@ class Chat(WebSocketServerProtocol):
 	def messageAll(self, message):
 		self.sendMessage("ann:" + message + '\n')
 		self.chatWith.sendMessage("ann:" + message + '\n')
+		
+	def enableAll(self, message):
+		self.sendMessage("con:" + message + '\n')
+		self.chatWith.sendMessage("con:" + message + '\n')
 
 urlString = "ws://localhost:" + port
 factory = WebSocketServerFactory(urlString)

@@ -19,17 +19,22 @@ $user = new flexibleAccess();
 		$hash = $user->escape($_GET['activate']);
 		$res = $user->query("SELECT `{$user->tbFields['active']}` FROM `{$user->dbTable}` WHERE `activationHash` = '$hash' LIMIT 1",__LINE__);
 		if ( $rec = mysql_fetch_array($res) ){
-			if ( $rec[0] == 1 )
+			if ( $rec[0] == 1 ) {
 				echo '<script>alert(\'Your account is already activated\')</script>';
+				header('Location: http://jumbochat.homedns.org');
+			}
 			else{
 				//Activate the account:
-				if ($user->query("UPDATE `{$user->dbTable}` SET `{$user->tbFields['active']}` = 1 WHERE `activationHash` = '$hash' LIMIT 1", __LINE__))
+				if ($user->query("UPDATE `{$user->dbTable}` SET `{$user->tbFields['active']}` = 1 WHERE `activationHash` = '$hash' LIMIT 1", __LINE__)) {
 					echo '<script>alert(\'Account activated!\')</script>';
-				else
+					header('Location: http://jumbochat.homedns.org');
+				} else {
 					echo '<script>alert(\'Unexpected error. Please contact an administrator\')</script>';
+					header('Location: http://jumbochat.homedns.org');
+				}
 			}
 		} else{
-			echo '<script>alert(\'User account does not exists\')</script>';
+			echo '<script>alert(\'User account does not exist\')</script>';
 		}
 	}
 	
@@ -57,16 +62,20 @@ $user = new flexibleAccess();
   				);
   				$userID = $user->insertUser($data);//The method returns the userID of the new user or 0 if the user is not added
   				if ($userID==0)
-  					echo '<script>alert(\'User not registered\')</script>';//user is allready registered or something like that
+  					echo '<script>alert(\'Error adding user.\')</script>';//user is allready registered or something like that
  				else {
-  					echo '<script>alert(\'User registered with user id '.$userID. '. Activate your account using the instructions on your mail.\')</script>';
+  					echo '<script>alert(\'Please check your email to activate your account.\')</script>';
   					//Here is a sample mail that user will get:
-					$email = 'Activate your user account by visiting : '. $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] .'?activate='.$hash;
-					mail($_POST['email'], 'Activate your account', $email);
+					$email = "Welcome to JumboChat! \r\n\r\n Activate your user account by visiting: "
+					         . $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] .'?activate='.$hash 
+					         . "\r\n\r\n Thanks! \r\n JC \r\n\r\n (Please reply to this email if you have any questions)";
+					$headers = 'From: JumboChat <hal@jumbochat.homedns.org>' . "\r\n" .
+							   'Reply-To: jmonte03@tufts.edu';
+					mail($_POST['email'], 'Activate your account', $email, $headers);
   				}
   					
     		} else if (!endsWith($_POST['email'],"@tufts.edu")) {
-    			echo '<script>alert(\'Not a Tufts email.\')</script>';
+    			echo '<script>alert(\'Not a valid @tufts.edu email address.\')</script>';
     		} else{
       			//user is now loaded, reload page
       			header('Location: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']);
@@ -76,7 +85,7 @@ $user = new flexibleAccess();
 
 <head>
 <meta charset="utf-8" />
-<title>Login</title>
+<title>JumboChat Login</title>
 
 <link rel="icon" type="image/png" href="./favicon.png">
 <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
@@ -89,6 +98,7 @@ $user = new flexibleAccess();
 			$("div").find("#login_info").html("Welcome to JumboChat! We're sorry, but your browser is currently unsupported.");
 		}	
 	}
+	
 	window.addEventListener("load", checkBrowser, false); 
 </script>
 
@@ -120,15 +130,16 @@ $user = new flexibleAccess();
     <div id='register_form'>
       <div id="register_form_left">
       <?php echo '<form method="post" action="'.$_SERVER['PHP_SELF'].'"/>' ?>
-      <input type="text" name="email" placeholder="email" /><br />
-      <input type="password" name="pwd" placeholder="password"/><br />
-      </div>
-      <input type="submit" value="login" id="loginButton"/>
+      	<input type="text" name="email" placeholder="email" /><br />
+      	<input type="password" name="pwd" placeholder="password"/><br />
+      	</div>
+      	<input type="submit" value="login" id="loginButton"/>
+      </form>
     </div>
   </div>
   
   <div id="login_info">Use your '@tufts.edu' email to log in. If this is your first time here, then enter your email and a password and you will be registered with that info.</div>
-  <div id="contact"><a href="info.html">Questions?</a></div>
+  <div id="contact"><a href="info.html">About</a> - <a href="info.html#termsofservice">Terms</a></div>
 </div>
 </body>
 
@@ -138,12 +149,13 @@ $user = new flexibleAccess();
 
 <head>
 <meta charset="utf-8" />
-<title>Chat</title>
+<title>JumboChat</title>
 
 <link rel="icon" type="image/png" href="./favicon.png">
 <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
-<script language="javascript" type="text/javascript" src="chat.js"></script>
 <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
+<script language="javascript" type="text/javascript" src="sound.js"></script>
+<script language="javascript" type="text/javascript" src="chat.js"></script>
 
 <script>
 
@@ -155,6 +167,15 @@ $(function() {
     body.css("margin-top", head.height()).css("margin-bottom", foot.height());      
    });   
  });
+ 
+$(document).keyup(function(e) {
+	if (e.keyCode == 27) { //esc
+		if (isConnected)
+			disconnect();
+		else if (!isConnecting)
+			reconnect();
+	}
+});
 
 </script>
 
@@ -179,7 +200,10 @@ $(function() {
 <div class="container fixedHeight">
 <header>
 	<div id=nav>
-		<?php echo '<a href="'.$_SERVER['PHP_SELF'].'?logout=1">logout</a>'; ?>
+	  <input type="button" value="mute" onclick="toggleMute(this)" id="mutebutton" class="button" />
+	  <?php echo '<form method="post" action="'.$_SERVER['PHP_SELF'].'?logout=1"/>' ?>
+      	<input type="submit" value="logout" id="logoutButton" class="button"/>
+      </form>
 	</div>
 </header>
 
@@ -189,10 +213,12 @@ $(function() {
 
 <div id="chatInput">
     <form onsubmit="buttonPressed(evt); return false">
-    <input type="textfield" id="textfield" />
+    <input type="textfield" id="textfield" onkeyup="textfieldChanged(this.value.length)"/>
     </form>
 </div>
 </div>
+
+<div id="typingIndicatorHidden">Jumbo is Typing…</div>
 
 </body>
 

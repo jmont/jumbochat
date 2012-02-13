@@ -34,7 +34,7 @@ header {
 #nav {
 	position: absolute;
 	right: 0;
-	top: 25px;
+	top: 7px;
 	right: 10px;
 }
 
@@ -115,7 +115,7 @@ header {
 	float: left;
 }
 
-#register_form input {
+#register_form input, .button {
 	border: 2px solid #d0d0d0;
 	padding: 8px 10px;
 	
@@ -126,7 +126,35 @@ header {
 	outline: 0;
 }
 
-#register_form input[type="submit"] {
+.button, form {
+	display: inline;
+}
+
+#loginButton {
+	display: block;
+	margin: 25px 0 0 0;
+	float: right;
+}
+
+#register_form input[type="submit"]:hover, .button {
+	background: -webkit-linear-gradient(top, #eee, #ccc);
+	background: -moz-linear-gradient(top, #eee, #ccc);
+	background: -ms-linear-gradient(top, #eee, #ccc);
+	background: -o-linear-gradient(top, #eee, #ccc);
+	background: linear-gradient(top, #eee, #ccc);
+	border: 1px solid #bbb;
+}
+
+#register_form input[type="submit"]:active, .button {
+	background: -webkit-linear-gradient(top, #ddd, #aaa);
+	background: -moz-linear-gradient(top, #ddd, #aaa);
+	background: -ms-linear-gradient(top, #ddd, #aaa);
+	background: -o-linear-gradient(top, #ddd, #aaa);
+	background: linear-gradient(top, #ddd, #aaa);	
+	border: 1px solid #999;
+}
+
+#register_form input[type="submit"], .button {
 	cursor: pointer;
 	background: -webkit-linear-gradient(top, #efefef, #ddd);
 	background: -moz-linear-gradient(top, #efefef, #ddd);
@@ -136,30 +164,6 @@ header {
 	color: #333;
 	text-shadow: 0px 1px 1px rgba(255,255,255,1);
 	border: 1px solid #ccc;
-}
-
-#loginButton {
-	display: block;
-	margin: 25px 0 0 0;
-	float: right;
-}
-
-#register_form input[type="submit"]:hover {
-	background: -webkit-linear-gradient(top, #eee, #ccc);
-	background: -moz-linear-gradient(top, #eee, #ccc);
-	background: -ms-linear-gradient(top, #eee, #ccc);
-	background: -o-linear-gradient(top, #eee, #ccc);
-	background: linear-gradient(top, #eee, #ccc);
-	border: 1px solid #bbb;
-}
-
-#register_form input[type="submit"]:active {
-	background: -webkit-linear-gradient(top, #ddd, #aaa);
-	background: -moz-linear-gradient(top, #ddd, #aaa);
-	background: -ms-linear-gradient(top, #ddd, #aaa);
-	background: -o-linear-gradient(top, #ddd, #aaa);
-	background: linear-gradient(top, #ddd, #aaa);	
-	border: 1px solid #999;
 }
 
 #remember_me {
@@ -177,6 +181,7 @@ header {
 }
 
 #contact {
+	color: #707070;
 	font-size: 12px;
 	width: 200px;
 	margin: 10px auto;
@@ -221,6 +226,37 @@ header {
 	line-height:12px;
 	display:block;
 }
+
+#typingIndicator {
+	position: absolute;
+	bottom: 25px;
+	right:0px;
+	background: #e0e0e0;
+	border: 1px solid #ccc;
+	
+	margin: 0 3px 3px 0;
+	padding: 2px 4px;
+	
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	
+	font-size: 12px;
+	color: #999;
+	
+	opacity: 1;
+	-webkit-transition: opacity .2s linear;
+}
+
+#typingIndicator:hover {
+	opacity: 0;
+	-webkit-transition: opacity .2s linear;
+}
+
+#typingIndicatorHidden {
+	display: none;
+}
+
 
 /* Presentation */
 
