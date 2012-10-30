@@ -30,6 +30,11 @@ function init() {
 	
     testWebSocket(); 
     document.getElementById('textfield').select();
+    
+    $("#chatInputForm").submit(function(evt){
+        buttonPressed(evt);
+        event.preventDefault();
+    });
 } 
 
 function toggleMute(button) {

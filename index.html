@@ -91,17 +91,6 @@ $user = new flexibleAccess();
 <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
 <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
 
-<script>
-	function checkBrowser() {
-		if (navigator.userAgent.indexOf('Chrome')==-1) { // not using chrome!
-			$("div").find("#register_form").css('display','none');
-			$("div").find("#login_info").html("Welcome to JumboChat! We're sorry, but your browser is currently unsupported.");
-		}	
-	}
-	
-	window.addEventListener("load", checkBrowser, false); 
-</script>
-
 <script type="text/javascript">
   // Analytics
   var _gaq = _gaq || [];
@@ -213,7 +202,7 @@ $(document).keyup(function(e) {
 </div>
 
 <div id="chatInput">
-    <form onsubmit="buttonPressed(evt); return false">
+    <form id="chatInputForm">
     <input type="textfield" id="textfield" onkeyup="textfieldChanged(this.value.length)"/>
     </form>
 </div>
