@@ -61,7 +61,7 @@ function onOpen(evt) {
 }  
 
 function onClose(evt) { 
-	announce("Disconnected from the server... :("); 
+	announce("Disconnected from the server... (If you get disconnected right after saying something, be sure to download the latest version of Safari or Chrome.)"); 
 	isConnected = false;
 	if($("#typingIndicator"))
 		$("#typingIndicator").attr("id","typingIndicatorHidden");
